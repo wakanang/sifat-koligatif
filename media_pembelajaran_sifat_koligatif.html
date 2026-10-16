@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Pembelajaran Interaktif: Sifat Koligatif Larutan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        canvas { display: block; width: 100%; height: 100%; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <header class="bg-indigo-700 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center space-x-3 mb-3 md:mb-0">
+                <div class="bg-white text-indigo-700 p-2.5 rounded-xl shadow">
+                    <i class="fa-solid fa-flask-vial text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">KimiSmart: Sifat Koligatif</h1>
+                    <p class="text-xs text-indigo-200">Media Pembelajaran Kimia Kelas 12 (Tanpa Hitungan)</p>
+                </div>
+            </div>
+            <nav class="flex flex-wrap gap-2">
+                <button onclick="switchTab('materi')" id="btn-materi" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-800 text-white transition hover:bg-indigo-600 shadow-sm">
+                    <i class="fa-solid fa-book-open mr-1.5"></i> Materi
+                </button>
+                <button onclick="switchTab('simulasi')" id="btn-simulasi" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition hover:bg-indigo-600 shadow-sm">
+                    <i class="fa-solid fa-cube mr-1.5"></i> Simulasi 3D
+                </button>
+                <button onclick="switchTab('game')" id="btn-game" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition hover:bg-indigo-600 shadow-sm">
+                    <i class="fa-solid fa-gamepad mr-1.5"></i> Game Edukasi
+                </button>
+                <button onclick="switchTab('kuis')" id="btn-kuis" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white transition hover:bg-indigo-600 shadow-sm">
+                    <i class="fa-solid fa-clipboard-question mr-1.5"></i> Latihan Soal
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-6">
+
+        <!-- ==================== TAB 1: MATERI ==================== -->
+        <div id="materi" class="tab-content active space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+                <div class="border-b pb-4 mb-6">
+                    <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">Konsep Dasar</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-2">Pengantar Sifat Koligatif Larutan</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 items-center">
+                    <div class="space-y-4 text-slate-600 leading-relaxed">
+                        <p>
+                            <strong>Sifat koligatif larutan</strong> adalah sifat-sifat fisik larutan yang <em>hanya bergantung pada jumlah partikel</em> zat terlarut (konsentrasi), dan <strong>tidak bergantung pada jenis</strong> zat terlarut tersebut.
+                        </p>
+                        <p>
+                            Artinya, apakah zat terlarut itu gula, garam, atau urea, selama jumlah partikelnya sama di dalam volume pelarut yang sama, maka ia akan memberikan perubahan sifat fisik larutan yang setara.
+                        </p>
+                        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-xl">
+                            <p class="text-xs text-amber-800 font-medium">
+                                <i class="fa-solid fa-circle-info mr-1"></i> Catatan: Materi ini difokuskan pada pemahaman konsep dan aplikasi nyata dalam kehidupan sehari-hari tanpa perhitungan matematis.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-2xl border border-indigo-100 flex flex-col justify-center items-center text-center">
+                        <i class="fa-solid fa-atom text-5xl text-indigo-600 mb-3 animate-pulse"></i>
+                        <h3 class="font-bold text-slate-800 text-lg">Faktor Kunci</h3>
+                        <p class="text-sm text-slate-600 mt-1">Jumlah partikel zat terlarut (ion atau molekul) adalah penentu utama perubahan sifat koligatif.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sub Materi Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 1. Penurunan Tekanan Uap -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center font-bold mb-4">1</div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Penurunan Tekanan Uap</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Zat terlarut non-volatil (sukar menguap) di permukaan cairan menghalangi molekul pelarut untuk menguap, sehingga tekanan uap larutan lebih rendah dibanding pelarut murninya.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t text-xs text-indigo-600 font-medium">
+                        <i class="fa-solid fa-arrow-down mr-1"></i> Tekanan uap berkurang
+                    </div>
+                </div>
+
+                <!-- 2. Kenaikan Titik Didih -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mb-4">2</div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Kenaikan Titik Didih</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Karena tekanan uap larutan lebih rendah, dibutuhkan suhu yang lebih tinggi agar tekanan uap larutan sama dengan tekanan udara luar (mendidih).
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t text-xs text-indigo-600 font-medium">
+                        <i class="fa-solid fa-arrow-up mr-1"></i> Titik didih meningkat
+                    </div>
+                </div>
+
+                <!-- 3. Penurunan Titik Beku -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center font-bold mb-4">3</div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Penurunan Titik Beku</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Kehadiran partikel zat terlarut mengganggu proses pembentukan struktur kristal padat pelarut, sehingga suhu harus diturunkan lebih jauh agar larutan membeku.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t text-xs text-indigo-600 font-medium">
+                        <i class="fa-solid fa-snowflake mr-1"></i> Titik beku menurun
+                    </div>
+                </div>
+
+                <!-- 4. Tekanan Osmosis -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex flex-col justify-between">
+                    <div>
+                        <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold mb-4">4</div>
+                        <h3 class="font-bold text-slate-900 text-lg mb-2">Tekanan Osmosis</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            Perpindahan molekul pelarut dari larutan encer ke larutan pekat melalui membran semipermeabel. Tekanan osmosis adalah tekanan untuk menghentikan aliran tersebut.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t text-xs text-indigo-600 font-medium">
+                        <i class="fa-solid fa-shield-halved mr-1"></i> Aliran via membran
+                    </div>
+                </div>
+            </div>
+
+            <!-- Aplikasi dalam Kehidupan Sehari-hari -->
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+                <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center">
+                    <i class="fa-solid fa-lightbulb text-amber-500 mr-2"></i> Aplikasi dalam Kehidupan Sehari-hari
+                </h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+                        <h4 class="font-bold text-indigo-700 mb-2">Pembuatan Es Puter (Es Krim Tradisional)</h4>
+                        <p class="text-sm text-slate-600">
+                            Pemberian garam kasar pada es batu menurunkan titik bekunya, sehingga es batu menyerap kalor lebih banyak dari adonan es puter dan membekukannya dengan sempurna. (Penurunan Titik Beku)
+                        </p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+                        <h4 class="font-bold text-indigo-700 mb-2">Cairan Radiator Kendaraan</h4>
+                        <p class="text-sm text-slate-600">
+                            Penambahan zat antibeku (etilen glikol) ke dalam air radiator mencegah air membeku di musim dingin atau mendidih berlebihan di cuaca panas. (Titik Beku & Didih)
+                        </p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+                        <h4 class="font-bold text-indigo-700 mb-2">Pemberian Garam pada Salju di Jalan</h4>
+                        <p class="text-sm text-slate-600">
+                            Di negara 4 musim, garam ditaburkan di jalanan bersalju untuk mencairkan es secara alami dengan menurunkan titik beku air salju. (Penurunan Titik Beku)
+                        </p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+                        <h4 class="font-bold text-indigo-700 mb-2">Penggunaan Cairan Infus di Rumah Sakit</h4>
+                        <p class="text-sm text-slate-600">
+                            Cairan infus (NaCl 0,9%) dibuat isotonik terhadap cairan darah agar sel darah merah tidak mengalami kerusakan akibat osmosis (pecah atau mengkerut). (Tekanan Osmosis)
+                        </p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+                        <h4 class="font-bold text-indigo-700 mb-2">Membasmi Lintah dengan Garam</h4>
+                        <p class="text-sm text-slate-600">
+                            Taburan garam di atas lintah menyebabkan air di dalam sel tubuh lintah keluar secara osmosis karena lingkungan luar menjadi hipertonik. (Tekanan Osmosis)
+                        </p>
+                    </div>
+                    <div class="p-5 rounded-xl bg-slate-50 border border-slate-100">
+                        <h4 class="font-bold text-indigo-700 mb-2">Pengawetan Makanan (Ikan Asin)</h4>
+                        <p class="text-sm text-slate-600">
+                            Garam pekat menarik cairan dari sel bakteri dan jaringan ikan melalui osmosis, sehingga bakteri pembusuk mati dan makanan menjadi awet. (Tekanan Osmosis)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 2: SIMULASI 3D ==================== -->
+        <div id="simulasi" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 border-b pb-4">
+                    <div>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">Simulasi 3D Interaktif</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-2">Visualisasi Partikel Pelarut vs Larutan</h2>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex gap-2">
+                        <button onclick="setSimulationMode('pure')" id="mode-pure" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium transition shadow-sm">Pelarut Murni</button>
+                        <button onclick="setSimulationMode('solution')" id="mode-solution" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition shadow-sm">Larutan (Zat Terlarut)</button>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-slate-950 rounded-2xl h-[450px] relative overflow-hidden shadow-inner flex items-center justify-center">
+                        <div id="canvas-container" class="w-full h-full"></div>
+                        <div class="absolute bottom-4 left-4 bg-slate-900/80 backdrop-blur text-white px-4 py-2 rounded-xl text-xs border border-slate-800 pointer-events-none">
+                            <span id="sim-desc" class="font-medium">Menampilkan molekul pelarut murni yang bergerak bebas menguap.</span>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg mb-2" id="sim-title">Pelarut Murni</h3>
+                            <p class="text-sm text-slate-600 leading-relaxed" id="sim-text">
+                                Pada pelarut murni (seperti air murni), seluruh permukaan cairan terdiri dari molekul pelarut. Molekul-molekul ini memiliki kebebasan penuh untuk bergerak dan meninggalkan permukaan cairan menuju fase gas (menguap) dengan mudah.
+                            </p>
+                        </div>
+                        <div class="space-y-2 bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-600">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>
+                                <span>Molekul Pelarut (Air)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+                                <span>Partikel Zat Terlarut (Non-volatil)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 3: GAME ==================== -->
+        <div id="game" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 text-center max-w-3xl mx-auto">
+                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">Game Edukasi</span>
+                <h2 class="text-2xl font-bold text-slate-900 mt-2 mb-2">Tantangan Pencocokan Sifat Koligatif</h2>
+                <p class="text-sm text-slate-600 mb-6">Cocokkan fenomena kehidupan sehari-hari dengan konsep sifat koligatif yang sesuai!</p>
+
+                <div id="game-container" class="space-y-6">
+                    <div class="bg-indigo-50 border border-indigo-100 p-6 rounded-2xl">
+                        <span id="game-score" class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Skor: 0 | Soal 1/5</span>
+                        <h3 id="game-question" class="text-lg font-bold text-slate-800 mt-2 mb-4">Menaburkan garam kasar pada pembuatan es puter tradisional.</h3>
+                        <div id="game-options" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <!-- Options generated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div id="game-result" class="hidden space-y-4">
+                    <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl">
+                        <i class="fa-solid fa-trophy text-4xl text-emerald-600 mb-2"></i>
+                        <h3 class="text-xl font-bold text-emerald-800">Permainan Selesai!</h3>
+                        <p id="game-final-score" class="text-sm text-emerald-700 mt-1">Skor Kamu: 100</p>
+                        <button onclick="resetGame()" class="mt-4 px-6 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-semibold hover:bg-indigo-700 transition">Main Lagi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TAB 4: KUIS / LATIHAN SOAL ==================== -->
+        <div id="kuis" class="tab-content space-y-6">
+            <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 max-w-3xl mx-auto">
+                
+                <!-- Registration Screen -->
+                <div id="quiz-reg" class="space-y-6">
+                    <div class="text-center">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">Evaluasi Siswa</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-2">Latihan Soal Sifat Koligatif Larutan</h2>
+                        <p class="text-sm text-slate-600 mt-1">15 Soal Pilihan Ganda Konseptual • Waktu 40 Detik per Soal • 1 Kali Kesempatan Pengerjaan</p>
+                    </div>
+
+                    <div id="quiz-locked-msg" class="hidden bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl text-sm text-center">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Anda sudah menyelesaikan kuis ini. Berdasarkan aturan, pengulangan hanya diperbolehkan 1 kali.
+                    </div>
+
+                    <form id="form-reg" onsubmit="startQuiz(event)" class="space-y-4 max-w-md mx-auto">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Nama Lengkap</label>
+                            <input type="text" id="student-name" required placeholder="Masukkan nama lengkap" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Kelas</label>
+                            <input type="text" id="student-class" required placeholder="Contoh: XII MIPA 1" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                        </div>
+                        <button type="submit" id="btn-start-quiz" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition shadow-sm">
+                            Mulai Kuis Sekarang
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Quiz Active Screen -->
+                <div id="quiz-active" class="hidden space-y-6">
+                    <div class="flex justify-between items-center bg-indigo-50 px-4 py-3 rounded-xl border border-indigo-100">
+                        <span id="quiz-progress" class="text-xs font-bold text-indigo-700">Soal 1 dari 15</span>
+                        <div class="flex items-center space-x-2 text-indigo-700 font-bold text-sm">
+                            <i class="fa-solid fa-clock"></i>
+                            <span id="quiz-timer">40</span>s
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 id="quiz-question" class="text-lg font-bold text-slate-900 leading-snug">Pertanyaan akan muncul di sini...</h3>
+                        <div id="quiz-options" class="space-y-3">
+                            <!-- Options generated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-4 border-t">
+                        <button onclick="nextQuizQuestion()" id="btn-next" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-sm transition shadow-sm">
+                            Selanjutnya
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Result Screen -->
+                <div id="quiz-result" class="hidden space-y-6 text-center">
+                    <div class="bg-indigo-50 border border-indigo-100 p-8 rounded-2xl space-y-4">
+                        <div class="w-16 h-16 bg-indigo-600 text-white rounded-full flex items-center justify-center mx-auto text-2xl shadow">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-900">Kuis Selesai!</h3>
+                        <p class="text-slate-600 text-sm">Berikut adalah hasil perolehan nilai latihan soal Anda:</p>
+                        
+                        <div class="text-4xl font-extrabold text-indigo-700 my-2" id="score-display">100</div>
+                        <p class="text-xs text-slate-500" id="detail-score-display">Jawaban Benar: 15 / 15</p>
+
+                        <div class="pt-4 border-t flex flex-col sm:flex-row gap-3 justify-center">
+                            <a id="wa-share-btn" href="#" target="_blank" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition shadow flex items-center justify-center space-x-2">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Kirim ke WhatsApp Group</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-auto">
+        <p>Media Pembelajaran Interaktif Kimia Kelas 12 • Sifat Koligatif Larutan</p>
+    </footer>
+
+    <script>
+        // Tab Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-indigo-800');
+                btn.classList.add('bg-indigo-600');
+            });
+            document.getElementById(tabId).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.remove('bg-indigo-600');
+                activeBtn.classList.add('bg-indigo-800');
+            }
+            if(tabId === 'simulasi' && typeof initThree === 'function' && !window.threeInitialized) {
+                initThree();
+                window.threeInitialized = true;
+            }
+        }
+
+        // ==================== THREE.JS 3D SIMULATION ====================
+        let scene, camera, renderer, particles = [];
+        let simulationMode = 'pure';
+
+        function initThree() {
+            const container = document.getElementById('canvas-container');
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x020617);
+
+            camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 15;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+            scene.add(ambientLight);
+            const pointLight = new THREE.PointLight(0xffffff, 1);
+            pointLight.position.set(10, 10, 10);
+            scene.add(pointLight);
+
+            createParticles();
+            animateThree();
+
+            window.addEventListener('resize', () => {
+                if(!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        function createParticles() {
+            // Clear existing
+            particles.forEach(p => scene.remove(p.mesh));
+            particles = [];
+
+            const count = simulationMode === 'pure' ? 60 : 80;
+            const solventGeo = new THREE.SphereGeometry(0.3, 16, 16);
+            const solventMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, roughness: 0.3 });
+
+            const soluteGeo = new THREE.SphereGeometry(0.4, 16, 16);
+            const soluteMat = new THREE.MeshStandardMaterial({ color: 0xf43f5e, roughness: 0.3 });
+
+            for(let i = 0; i < count; i++) {
+                let isSolute = (simulationMode === 'solution' && i < 20);
+                let mesh = new THREE.Mesh(isSolute ? soluteGeo : solventGeo, isSolute ? soluteMat : solventMat);
+                
+                mesh.position.set(
+                    (Math.random() - 0.5) * 10,
+                    (Math.random() - 0.5) * 8,
+                    (Math.random() - 0.5) * 5
+                );
+                
+                scene.add(mesh);
+                particles.push({
+                    mesh: mesh,
+                    isSolute: isSolute,
+                    speed: (Math.random() * 0.03 + 0.01) * (isSolute ? 0.5 : 1.2),
+                    angle: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function setSimulationMode(mode) {
+            simulationMode = mode;
+            const btnPure = document.getElementById('mode-pure');
+            const btnSol = document.getElementById('mode-solution');
+            const title = document.getElementById('sim-title');
+            const text = document.getElementById('sim-text');
+            const desc = document.getElementById('sim-desc');
+
+            if(mode === 'pure') {
+                btnPure.className = "px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium transition shadow-sm";
+                btnSol.className = "px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition shadow-sm";
+                title.innerText = "Pelarut Murni";
+                text.innerText = "Pada pelarut murni, seluruh permukaan cairan terdiri dari molekul pelarut. Molekul-molekul ini memiliki kebebasan penuh untuk bergerak dan meninggalkan permukaan cairan menuju fase gas (menguap) dengan mudah.";
+                desc.innerText = "Menampilkan molekul pelarut murni yang bergerak bebas menguap.";
+            } else {
+                btnSol.className = "px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium transition shadow-sm";
+                btnPure.className = "px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition shadow-sm";
+                title.innerText = "Larutan (Zat Terlarut Hadir)";
+                text.innerText = "Kehadiran partikel zat terlarut (merah) menempati sebagian permukaan dan menghalangi molekul pelarut (biru) untuk menguap. Akibatnya tekanan uap menurun, titik didih naik, dan titik beku turun.";
+                desc.innerText = "Partikel zat terlarut menghalangi pergerakan molekul pelarut.";
+            }
+            createParticles();
+        }
+
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            particles.forEach(p => {
+                p.mesh.position.y += Math.sin(Date.now() * 0.002 + p.angle) * 0.01;
+                p.mesh.rotation.x += 0.01;
+                p.mesh.rotation.y += 0.01;
+            });
+            if(renderer && scene && camera) renderer.render(scene, camera);
+        }
+
+        // ==================== INTERACTIVE GAME ====================
+        const gameData = [
+            { q: "Menaburkan garam kasar pada pembuatan es puter tradisional.", answer: "Penurunan Titik Beku", options: ["Penurunan Titik Beku", "Kenaikan Titik Didih", "Tekanan Osmosis", "Penurunan Tekanan Uap"] },
+            { q: "Penambahan etilen glikol pada cairan radiator mobil di daerah dingin.", answer: "Penurunan Titik Beku", options: ["Tekanan Osmosis", "Penurunan Titik Beku", "Kenaikan Titik Didih", "Penurunan Tekanan Uap"] },
+            { q: "Penggunaan cairan infus NaCl 0,9% yang sesuai dengan sel darah merah.", answer: "Tekanan Osmosis", options: ["Kenaikan Titik Didih", "Penurunan Tekanan Uap", "Tekanan Osmosis", "Penurunan Titik Beku"] },
+            { q: "Memasak sayuran dengan air yang telah diberi garam agar lebih cepat empuk.", answer: "Kenaikan Titik Didih", options: ["Kenaikan Titik Didih", "Penurunan Titik Beku", "Tekanan Osmosis", "Penurunan Tekanan Uap"] },
+            { q: "Membasmi lintah dengan menaburkan garam dapur di atas tubuhnya.", answer: "Tekanan Osmosis", options: ["Penurunan Tekanan Uap", "Tekanan Osmosis", "Kenaikan Titik Didih", "Penurunan Titik Beku"] }
+        ];
+
+        let currentGameIndex = 0;
+        let gameScore = 0;
+
+        function loadGameQuestion() {
+            if(currentGameIndex >= gameData.length) {
+                document.getElementById('game-container').classList.add('hidden');
+                document.getElementById('game-result').classList.remove('hidden');
+                document.getElementById('game-final-score').innerText = `Skor Kamu: ${gameScore * 20}`;
+                return;
+            }
+            const current = gameData[currentGameIndex];
+            document.getElementById('game-score').innerText = `Skor: ${gameScore * 20} | Soal ${currentGameIndex + 1}/${gameData.length}`;
+            document.getElementById('game-question').innerText = current.q;
+            
+            const optionsContainer = document.getElementById('game-options');
+            optionsContainer.innerHTML = '';
+            
+            // Shuffle options
+            let shuffledOptions = [...current.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "p-3 bg-white border border-slate-200 rounded-xl text-sm font-medium hover:bg-indigo-50 hover:border-indigo-300 transition text-slate-700 text-left";
+                btn.innerText = opt;
+                btn.onclick = () => checkGameAnswer(opt, current.answer);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkGameAnswer(selected, correct) {
+            if(selected === correct) {
+                gameScore++;
+            }
+            currentGameIndex++;
+            loadGameQuestion();
+        }
+
+        function resetGame() {
+            currentGameIndex = 0;
+            gameScore = 0;
+            document.getElementById('game-container').classList.remove('hidden');
+            document.getElementById('game-result').classList.add('hidden');
+            loadGameQuestion();
+        }
+
+        // Initialize Game on load
+        loadGameQuestion();
+
+        // ==================== KUIS / LATIHAN SOAL (15 SOAL, 40s, 1 ATTEMPT) ====================
+        const quizQuestions = [
+            { q: "Sifat koligatif larutan adalah sifat fisik larutan yang bergantung pada...", options: ["Jenis zat terlarut", "Jumlah partikel zat terlarut", "Massa jenis pelarut", "Volume total larutan"], correct: 1 },
+            { q: "Mengapa penambahan zat terlarut non-volatil menyebabkan penurunan tekanan uap larutan?", options: ["Zat terlarut mengikat molekul pelarut secara kimia", "Zat terlarut di permukaan menghalangi molekul pelarut menguap", "Zat terlarut menambah kecepatan molekul pelarut", "Suhu larutan meningkat secara drastis"], correct: 1 },
+            { q: "Penambahan garam ke dalam air mendidih akan mengakibatkan...", options: ["Titik didih air menjadi lebih tinggi", "Titik didih air menjadi lebih rendah", "Air lebih cepat menguap tanpa mendidih", "Suhu air mendidih tetap konstan"], correct: 0 },
+            { q: "Cairan antibeku seperti etilen glikol ditambahkan ke dalam radiator mobil dengan tujuan...", options: ["Menaikkan titik didih dan menurunkan titik beku air", "Mempercepat pembekuan air di musim dingin", "Mengurangi tekanan uap di dalam mesin", "Mencegah terjadinya osmosis pada logam radiator"], correct: 0 },
+            { q: "Peristiwa perpindahan molekul pelarut dari larutan encer ke larutan pekat melalui membran semipermeabel disebut...", options: ["Difusi", "Osmosis", "Dialisis", "Sublimasi"], correct: 1 },
+            { q: "Pembuatan es puter tradisional dengan es batu dan garam memanfaatkan sifat koligatif...", options: ["Kenaikan titik didih", "Penurunan titik beku", "Tekanan osmosis", "Penurunan tekanan uap"], correct: 1 },
+            { q: "Cairan infus yang dimasukkan ke dalam darah pasien harus bersifat isotonik agar...", options: ["Sel darah merah mengalami hemolisis", "Sel darah merah mengalami krenasi", "Sel darah merah tidak rusak (ukuran tetap)", "Tekanan darah pasien langsung naik"], correct: 2 },
+            { q: "Di antara larutan berikut pada konsentrasi molal yang sama, manakah yang memiliki penurunan titik beku paling besar?", options: ["Larutan Gula (non-elektrolit)", "Larutan Urea (non-elektrolit)", "Larutan Garam Dapur / NaCl (elektrolit kuat)", "Larutan Glukosa"], correct: 2 },
+            { q: "Mengapa sayuran lebih cepat empuk jika direbus dalam air yang telah diberi garam?", options: ["Suhu air mendidih menjadi lebih tinggi dari 100°C", "Garam melunakkan serat selulosa sayuran secara kimia", "Garam mendinginkan air dengan cepat", "Tekanan uap air berkurang drastis"], correct: 0 },
+            { q: "Penaburan garam di jalanan bersalju di negara 4 musim bertujuan untuk...", options: ["Membekukan salju lebih cepat", "Mencairkan es dengan menurunkan titik bekunya", "Menambah keindahan jalan raya", "Menaikkan titik didih salju"], correct: 1 },
+            { q: "Mengapa air laut tidak dapat diminum untuk menghilangkan rasa haus?", options: ["Kadar garamnya rendah sehingga hambar", "Tekanan osmosis air laut menarik cairan tubuh keluar secara osmosis", "Air laut tidak memiliki sifat koligatif", "Air laut mendidih pada suhu rendah"], correct: 1 },
+            { q: "Pengawetan ikan asin dengan garam pekat memanfaatkan prinsip...", options: ["Penurunan tekanan uap", "Kenaikan titik didih", "Tekanan osmosis yang membunuh bakteri", "Penurunan titik beku"], correct: 2 },
+            { q: "Faktor utama yang membedakan besarnya sifat koligatif larutan elektrolit dan non-elektrolit pada konsentrasi molal yang sama adalah...", options: ["Jumlah partikel hasil ionisasi", "Massa molekul relatif zat", "Warna larutan", "Jenis pelarut yang digunakan"], correct: 0 },
+            { q: "Manakah kelompok di bawah ini yang seluruhnya merupakan sifat koligatif larutan?", options: ["Titik didih, titik beku, massa jenis, viskositas", "Penurunan tekanan uap, kenaikan titik didih, penurunan titik beku, tekanan osmosis", "Tekanan osmosis, warna larutan, pH, kelarutan", "Tekanan uap, massa molar, titik leleh, kalor jenis"], correct: 1 },
+            { q: "Jika seseorang mengalami dehidrasi berat di rumah sakit, cairan infus yang diberikan biasanya bersifat...", options: ["Hipertonik", "Isotonik", "Hipotonik", "Non-elektrolit"], correct: 1 }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let studentAnswers = [];
+        let quizTimer = null;
+        let timeLeft = 40;
+        let studentData = { name: '', class: '' };
+
+        // Check if already attempted
+        window.addEventListener('DOMContentLoaded', () => {
+            if(localStorage.getItem('koligatif_quiz_done') === 'true') {
+                document.getElementById('quiz-locked-msg').classList.remove('hidden');
+                document.getElementById('form-reg').style.display = 'none';
+            }
+        });
+
+        function startQuiz(e) {
+            e.preventDefault();
+            if(localStorage.getItem('koligatif_quiz_done') === 'true') return;
+
+            studentData.name = document.getElementById('student-name').value;
+            studentData.class = document.getElementById('student-class').value;
+
+            document.getElementById('quiz-reg').classList.add('hidden');
+            document.getElementById('quiz-active').classList.remove('hidden');
+            
+            loadQuizQuestion();
+        }
+
+        function loadQuizQuestion() {
+            if(currentQuizIndex >= quizQuestions.length) {
+                finishQuiz();
+                return;
+            }
+
+            clearInterval(quizTimer);
+            timeLeft = 40;
+            document.getElementById('quiz-timer').innerText = timeLeft;
+
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').innerText = `Soal ${currentQuizIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('quiz-question').innerText = q.q;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const label = document.createElement('label');
+                label.className = "flex items-center space-x-3 p-3.5 bg-slate-50 border border-slate-200 rounded-xl hover:bg-indigo-50 hover:border-indigo-300 cursor-pointer transition text-sm font-medium text-slate-700";
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'quiz-option';
+                radio.value = idx;
+                radio.className = 'text-indigo-600 focus:ring-indigo-500 h-4 w-4';
+
+                const span = document.createElement('span');
+                span.innerText = opt;
+
+                label.appendChild(radio);
+                label.appendChild(span);
+                optionsContainer.appendChild(label);
+            });
+
+            // Start timer
+            quizTimer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('quiz-timer').innerText = timeLeft;
+                if(timeLeft <= 0) {
+                    clearInterval(quizTimer);
+                    handleNextQuestion(true); // time out
+                }
+            }, 1000);
+        }
+
+        function nextQuizQuestion() {
+            clearInterval(quizTimer);
+            handleNextQuestion(false);
+        }
+
+        function handleNextQuestion(isTimeout) {
+            const radios = document.getElementsByName('quiz-option');
+            let selectedAnswer = -1;
+            for(let r of radios) {
+                if(r.checked) {
+                    selectedAnswer = parseInt(r.value);
+                    break;
+                }
+            }
+
+            const current = quizQuestions[currentQuizIndex];
+            if(!isTimeout && selectedAnswer === current.correct) {
+                quizScore++;
+            }
+            studentAnswers.push(selectedAnswer);
+
+            currentQuizIndex++;
+            loadQuizQuestion();
+        }
+
+        function finishQuiz() {
+            document.getElementById('quiz-active').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+
+            const finalScoreVal = Math.round((quizScore / quizQuestions.length) * 100);
+            document.getElementById('score-display').innerText = finalScoreVal;
+            document.getElementById('detail-score-display').innerText = `Jawaban Benar: ${quizScore} / ${quizQuestions.length}`;
+
+            // Mark as attempted in localStorage
+            localStorage.setItem('koligatif_quiz_done', 'true');
+
+            // Format WhatsApp Message
+            const waText = `Halo Bapak/Ibu Guru,%0ABerikut hasil latihan soal Sifat Koligatif Larutan:%0A%0A*Nama:* ${encodeURIComponent(studentData.name)}%0A*Kelas:* ${encodeURIComponent(studentData.class)}%0A*Skor:* *${finalScoreVal}*%0A*Benar:* ${quizScore} dari ${quizQuestions.length} soal.%0A%0ATerima kasih!`;
+            
+            document.getElementById('wa-share-btn').href = `https://api.whatsapp.com/send?phone=&text=${waText}`;
+        }
+    </script>
+</body>
+</html>
